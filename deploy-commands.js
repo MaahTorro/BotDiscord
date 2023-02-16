@@ -1,27 +1,27 @@
-const { REST, Routers } = required("discord.js")
+const { REST, Routes } = require("discord.js")
 
 // DOTENV
 const dotenv = require('dotenv')
 dotenv.config()
-const { TOKEN } = process.env
+const { TOKEN, CLIENT_ID, GUILD_ID } = process.env
 
 
 
 // importação dos comandos
-const fs = require("node:fs")
+const fs = require ("node:fs")
 const path = require("node:path")
 const commandsPath = path.join(__dirname, "commands")
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"))
 
 const commands = []
 
-for (const flies in commandFiles) {
+for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
     commands.push(command.data.toJSON())
 }
 
 //Instância REST
-const rest = new REST({version: "10"}).setToken(TOKEN)
+const rest = new REST({version: "10"}).setToken(TOKEN);
 
 // Deploy
 (async () => {
@@ -36,6 +36,6 @@ const rest = new REST({version: "10"}).setToken(TOKEN)
     }
 
     catch (error){
-        console.log()
+        console.error(error)
     }
-})
+})()
